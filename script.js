@@ -1,10 +1,10 @@
-// Ajustes rápidos: velocidad del carrusel y destino de los mensajes.
 const CAROUSEL_INTERVAL = 6500;
 const WHATSAPP_NUMBER = "573011626926";
 
 const slides = [...document.querySelectorAll(".carousel-slide")];
 const dots = [...document.querySelectorAll(".carousel-dot")];
 const carousel = document.querySelector(".carousel");
+const pauseButton = document.querySelector(".carousel-pause");
 let activeSlide = 0;
 let timer;
 let userPaused = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -31,24 +31,27 @@ function stopCarousel() {
 
 function startCarousel() {
   stopCarousel();
-  if (!userPaused) {
+  if (!userPaused && !document.hidden) {
     timer = window.setInterval(() => showSlide(activeSlide + 1), CAROUSEL_INTERVAL);
   }
 }
 
-dots.forEach((dot, i) => dot.addEventListener("click", () => { showSlide(i); startCarousel(); }));
-document.querySelectorAll(".carousel-arrow").forEach((button) => {
-  button.addEventListener("click", () => {
-    showSlide(activeSlide + (button.dataset.direction === "next" ? 1 : -1));
-    startCarousel();
-  });
-});
-const pauseButton = document.querySelector(".carousel-pause");
+dots.forEach((dot, index) => dot.addEventListener("click", () => {
+  showSlide(index);
+  startCarousel();
+}));
+
+document.querySelectorAll(".carousel-arrow").forEach((button) => button.addEventListener("click", () => {
+  showSlide(activeSlide + (button.dataset.direction === "next" ? 1 : -1));
+  startCarousel();
+}));
+
 if (userPaused) {
   pauseButton.textContent = "Reanudar";
   pauseButton.setAttribute("aria-label", "Reanudar carrusel");
   pauseButton.setAttribute("aria-pressed", "true");
 }
+
 pauseButton.addEventListener("click", () => {
   userPaused = !userPaused;
   pauseButton.setAttribute("aria-pressed", String(userPaused));
@@ -56,13 +59,14 @@ pauseButton.addEventListener("click", () => {
   pauseButton.textContent = userPaused ? "Reanudar" : "Pausar";
   startCarousel();
 });
+
 carousel.addEventListener("mouseenter", stopCarousel);
 carousel.addEventListener("mouseleave", startCarousel);
 carousel.addEventListener("focusin", stopCarousel);
 carousel.addEventListener("focusout", (event) => {
   if (!carousel.contains(event.relatedTarget)) startCarousel();
 });
-document.addEventListener("visibilitychange", () => document.hidden ? stopCarousel() : startCarousel());
+document.addEventListener("visibilitychange", startCarousel);
 startCarousel();
 
 const menuToggle = document.querySelector(".menu-toggle");
@@ -72,12 +76,13 @@ menuToggle.addEventListener("click", () => {
   menuToggle.setAttribute("aria-expanded", String(!expanded));
   mainNav.classList.toggle("is-open", !expanded);
 });
+
 mainNav.querySelectorAll("a").forEach((link) => link.addEventListener("click", () => {
   menuToggle.setAttribute("aria-expanded", "false");
   mainNav.classList.remove("is-open");
 }));
 
-// Navegación SPA: la URL conserva una ruta con hash y las vistas cambian sin recargar.
+// Navegación entre vistas sin recargar ni abrir nuevas pestañas.
 const viewSections = [...document.querySelectorAll("main [data-view]")];
 const viewNames = new Set(viewSections.map((section) => section.dataset.view));
 const pageTitle = {
@@ -103,14 +108,14 @@ function renderView(hash = window.location.hash.slice(1), { scroll = true } = {}
     else link.removeAttribute("aria-current");
   });
 
-  if (scroll) {
-    requestAnimationFrame(() => {
-      const visibleTarget = destination && !destination.hidden ? destination : viewSections.find((section) => section.dataset.view === currentView);
-      if (hash === "contenido") document.querySelector("#contenido").focus({ preventScroll: true });
-      else visibleTarget?.focus({ preventScroll: true });
-      (hash === "carrusel" ? destination : visibleTarget)?.scrollIntoView({ block: "start" });
-    });
-  }
+  if (scroll) requestAnimationFrame(() => {
+    const visibleTarget = destination && !destination.hidden
+      ? destination
+      : viewSections.find((section) => section.dataset.view === currentView);
+    if (hash === "contenido") document.querySelector("#contenido").focus({ preventScroll: true });
+    else visibleTarget?.focus({ preventScroll: true });
+    (hash === "carrusel" ? destination : visibleTarget)?.scrollIntoView({ block: "start" });
+  });
 }
 
 document.addEventListener("click", (event) => {
@@ -122,26 +127,24 @@ document.addEventListener("click", (event) => {
   if (window.location.hash !== `#${hash}`) window.history.pushState(null, "", `#${hash}`);
   renderView(hash);
 });
+
 window.addEventListener("popstate", () => renderView());
 renderView(window.location.hash.slice(1) || "inicio", { scroll: false });
 
 document.querySelector("#year").textContent = new Date().getFullYear();
+
+// El formulario abre WhatsApp con el texto rellenado; el visitante confirma el envío.
 document.querySelector("#contact-form").addEventListener("submit", (event) => {
   event.preventDefault();
   const form = new FormData(event.currentTarget);
   const message = [
-    "Hola, Aura Creativa. Quiero cotizar un proyecto.",
-    "",
-    `Nombre: ${form.get("name")}`,
-    `Correo: ${form.get("email")}`,
-    `Servicio: ${form.get("service")}`,
-    `Idea: ${form.get("message")}`,
+    `Hola Jess, soy ${form.get("name")}.`,
+    `Mi correo es ${form.get("email")}.`,
+    `Me interesa: ${form.get("service")}.`,
+    `Mi idea es: ${form.get("message")}`,
   ].join("\n");
-  document.querySelector("#form-status").textContent = "Abriendo WhatsApp con tu mensaje. Revisa los datos y pulsa enviar en la aplicación.";
-  window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`, "_blank", "noopener,noreferrer");
+  const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+  window.open(whatsappUrl, "_blank", "noopener,noreferrer");
+  document.querySelector("#form-status").textContent = "WhatsApp se abrió con tu mensaje. Revísalo y presiona Enviar para compartirlo con Aura Creativa.";
 });
-
-// Para poner imágenes en el carrusel, guarda los archivos en assets/ y reemplaza
-// el contenido de cada .slide-image por un <img src="assets/tu-imagen.jpg" alt="...">.
-// Conserva el texto del slide para que el carrusel siga siendo informativo y accesible.
 
