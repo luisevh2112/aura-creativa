@@ -145,6 +145,7 @@ to{opacity:1;transform:translateY(0)}
 .contact-copy>p:not(.eyebrow){max-width:420px;color:#697466;font-size:.88rem;line-height:1.8}
 .contact-details{display:grid;gap:1rem;margin-top:2rem}
 .contact-details a{display:flex;align-items:center;gap:.85rem;font-size:.82rem}
+.contact-details a>span:last-child{overflow-wrap:anywhere}
 .contact-details a:hover{text-decoration:underline;text-decoration-color:#859772;text-underline-offset:4px}
 .contact-details small{display:block;text-transform:uppercase;font-size:.59rem;letter-spacing:.14em;color:#758363;margin-bottom:.15rem}
 .contact-symbol{width:36px;height:36px;border:1px solid #c3ccb9;border-radius:50%;display:grid;place-items:center;color:#607552}
@@ -237,7 +238,8 @@ to{opacity:1;transform:translateY(0)}
 @media(max-width:390px){.hero h1{font-size:3rem}
 .services-grid{grid-template-columns:1fr}
 .service-card{min-height:195px}
-.carousel-hint{max-width:110px;text-align:right}
+.carousel-controls{gap:.55rem;flex-wrap:wrap}
+.carousel-hint{width:100%;max-width:none;margin-left:0}
 .intro-strip p:last-child{display:none}
 }
 
