@@ -253,5 +253,58 @@ main [data-view][hidden]{display:none!important}
 .main-nav a[aria-current="page"]{color:var(--ink);font-weight:700}
 .site-header{position:sticky;top:0;z-index:20}
 main [data-view]{scroll-margin-top:100px}
+.service-card{display:flex;flex-direction:column;align-items:flex-start}
+.service-details{width:100%;margin-top:1rem;border-top:1px solid rgba(238,244,218,.22);font-size:.72rem}
+.service-details summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;padding:.65rem 0;color:#d6e6a3;font-weight:600}
+.service-details summary::-webkit-details-marker{display:none}
+.service-details summary span{font-size:1rem;transition:transform .2s}
+.service-details[open] summary span{transform:rotate(45deg)}
+.service-extra{padding:.15rem 0 .8rem}
+.service-extra>p{margin:.3rem 0 .85rem!important;color:#cbd3c3!important;font-size:.73rem!important}
+.service-extra h4{font-size:.69rem;letter-spacing:.06em;margin:0 0 .4rem;color:#eff4df}
+.service-extra ul{padding-left:1.1rem;margin:.3rem 0 .9rem;color:#cbd3c3;line-height:1.65}
+.service-extra li{margin:.3rem 0}
+.service-extra li strong{color:#f1f4e8}
+.service-quote{display:inline-block;color:#d6e6a3;font-weight:600;border-bottom:1px solid #71835c;padding-bottom:.2rem}
+.service-quote:hover,.service-details summary:hover{color:white}
+.package-note{position:relative;color:#bdc7b3;font-size:.7rem;margin:1rem 0 0}
+.testimonial-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem}
+.testimonial-empty-copy{grid-column:1/-1;border-block:1px solid rgba(238,244,218,.25);padding:1.6rem 0;color:#dfe6d2;font-family:var(--serif);font-size:1.2rem}
+.testimonial-card{position:relative;padding:1.4rem;background:rgba(247,249,239,.045);border:1px solid rgba(238,244,218,.18)}
+.testimonial-card .quote-mark{display:block;font-size:3.5rem}
+.testimonial-card blockquote{margin:.3rem 0 1.2rem;font-family:var(--serif);font-size:1.12rem;color:#e5eadc;line-height:1.6;white-space:pre-wrap;overflow-wrap:anywhere}
+.testimonial-byline{display:flex;align-items:center;justify-content:space-between;gap:1rem;color:#c7d2b9;font-size:.75rem}
+.testimonial-byline a,.text-button{color:#d6e6a3;text-decoration:underline;text-underline-offset:3px}
+.client-area{position:relative;margin-top:3.5rem;padding-top:2rem;border-top:1px solid rgba(238,244,218,.22)}
+.client-intro{max-width:640px;margin-bottom:1.5rem}
+.client-intro h3{font-family:var(--serif);font-weight:500;font-size:1.7rem;margin-bottom:.5rem}
+.client-intro p,.client-status{font-size:.79rem;color:#c3cdb9;line-height:1.8}
+.auth-forms{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:2rem;max-width:800px}
+.client-form{display:grid;gap:.48rem;align-content:start}
+.client-form h4,.admin-panel h4{font-family:var(--serif);font-size:1.1rem;font-weight:500;margin:0 0 .45rem}
+.client-form label{font-size:.69rem;margin-top:.3rem;color:#e1e8d8}
+.client-form label span{color:#b5c1aa}
+.client-form input,.client-form textarea{min-width:0;width:100%;border:0;border-bottom:1px solid rgba(238,244,218,.32);background:transparent;color:#f8f9f0;padding:.55rem 0;border-radius:0}
+.client-form input:focus,.client-form textarea:focus{outline:2px solid #a9bd83;outline-offset:3px}
+.client-form button{justify-self:start;margin-top:.7rem}
+.button-outline-light{border:1px solid rgba(238,244,218,.4);color:#f8f9f0;background:transparent}
+.button-outline-light:hover{background:rgba(238,244,218,.08)}
+.client-form :disabled{opacity:.55;cursor:not-allowed}
+.client-status{min-height:1.5em;margin:.7rem 0}
+.review-panel{max-width:800px}
+.review-session{display:flex;align-items:center;gap:1rem;justify-content:space-between;margin:1rem 0;color:#cad4bf;font-size:.75rem}
+.text-button{background:none;border:0;font:inherit;cursor:pointer}
+.review-form{max-width:560px;padding:1.3rem;border:1px solid rgba(238,244,218,.2)}
+.admin-panel{margin-top:2rem;padding-top:1.5rem;border-top:1px solid rgba(238,244,218,.2)}
+.pending-testimonial{background:rgba(214,230,163,.07)}
+.moderation-actions{display:flex;gap:1rem;margin-top:1rem}
+.moderation-actions button:disabled{opacity:.5}
+.honeypot{position:absolute!important;width:1px!important;height:1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important}
+.contact-form button:disabled{opacity:.65;cursor:wait}
+.whatsapp-float{position:fixed;z-index:25;right:1.4rem;bottom:1.35rem;display:inline-flex;align-items:center;gap:.6rem;padding:.72rem 1rem;background:#1d7045;color:#fff;border:1px solid rgba(255,255,255,.3);border-radius:999px;box-shadow:0 5px 20px rgba(16,32,23,.2);font-size:.76rem;font-weight:600}
+.whatsapp-float>span:first-child{display:grid;place-items:center;width:1.25rem;height:1.25rem;border:1px solid #fff;border-radius:50%;font-size:.77rem}
+.whatsapp-float:hover{background:#155735;transform:translateY(-2px)}
+.whatsapp-float:focus-visible{outline:3px solid #d6e6a3;outline-offset:3px}
+@media(max-width:640px){.testimonial-list{grid-template-columns:1fr}.auth-forms{grid-template-columns:1fr;gap:2rem}.client-area{margin-top:2.7rem}.whatsapp-float{right:.8rem;bottom:.8rem;padding:.7rem}.whatsapp-label{font-size:0}.whatsapp-float>span:first-child{width:1.35rem;height:1.35rem;font-size:.85rem}.service-details{font-size:.7rem}}
 
 
